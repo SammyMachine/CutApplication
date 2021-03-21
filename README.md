@@ -7,15 +7,15 @@ Implementation of Cut (Selecting some substring from each line of a text file
 
 Command line: cut [-c|-w] [-o ofile ] [ file ] [-r range]
 
--c — sets indentation in chars
+1.`-c` — sets indentation in chars
 
--w — sets indentation in words 
+2.`-w` — sets indentation in words 
 
--o outputname.txt — set output file name 
+3.`-o outputname.txt` — set output file name 
 
-file - set input file name
+4.file — set input file name
 
--r range - the parameter sets the output range and has one of the following types (here N and K are integers):
+5.`-r range` — the parameter sets the output range and has one of the following types (here N and K are integers):
 
             -K range from beginning of line to K
             N- range from N to the end of the line
