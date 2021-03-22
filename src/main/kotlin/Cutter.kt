@@ -73,7 +73,7 @@ fun inputCut(output: String, range: String, indentation: String, input: String) 
                 val newRange = range.replace("-", "")
                 for (line in inputFile.readLines()) {
                     val splitLine = line.split(" ")
-                    for (i in newRange.toInt() until line.split(" ").size)
+                    for (i in newRange.toInt() + 1 until line.split(" ").size)
                         string += splitLine[i] + " "
                     if (findingLastLine(input) != line) {
                         fullString += string.trimEnd() + "\n"
@@ -159,7 +159,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                 while (inputScanner.hasNext()) {
                     next = inputScanner.nextLine()
                     val splitLine = next.split(" ")
-                    for (i in newRange.toInt() - 1 until splitLine.size - 1) {
+                    for (i in newRange.toInt() until splitLine.size - 1) {
                         string += splitLine[i] + " "
                     }
                     fullString += string.trimEnd() + "\n"
