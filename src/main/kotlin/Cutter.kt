@@ -4,9 +4,9 @@ import java.io.InputStream
 import java.util.*
 
 
-fun main(args: Array<String>) {
-    CutterLauncher.main(args)
-}
+//fun main(args: Array<String>) {
+//    CutterLauncher.main(args)
+//}
 
 fun cut(indentation: String, input: String, output: String, range: String) {
     if (input != "None")
@@ -27,9 +27,9 @@ fun inputCut(output: String, range: String, indentation: String, input: String) 
                     for (i in 0 until newRange.toInt() + 1)
                         string += line[i].toString()
                     if (findingLastLine(input) != line) {
-                        fullString += string.trimEnd() + "\n"
+                        fullString += string + "\n"
                         string = ""
-                    } else fullString += string.trimEnd()
+                    } else fullString += string
                 }
             }
             range.last() -> {
@@ -38,9 +38,9 @@ fun inputCut(output: String, range: String, indentation: String, input: String) 
                     for (i in newRange.toInt() until line.length)
                         string += line[i].toString()
                     if (findingLastLine(input) != line) {
-                        fullString += string.trimEnd() + "\n"
+                        fullString += string + "\n"
                         string = ""
-                    } else fullString += string.trimEnd()
+                    } else fullString += string
                 }
             }
             else -> {
@@ -49,9 +49,9 @@ fun inputCut(output: String, range: String, indentation: String, input: String) 
                     for (i in newRange)
                         string += line[i].toString()
                     if (findingLastLine(input) != line) {
-                        fullString += string.trimEnd() + "\n"
+                        fullString += string + "\n"
                         string = ""
-                    } else fullString += string.trimEnd()
+                    } else fullString += string
                 }
             }
         }
@@ -110,7 +110,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                 val newRange = range.replace("-", "")
                 while (inputScanner.hasNext()) {
                     next = inputScanner.nextLine()
-                    for (i in 0 until newRange.toInt()) {
+                    for (i in 0 until newRange.toInt() + 1) {
                         string += next[i].toString()
                     }
                     fullString += string + "\n"
@@ -121,7 +121,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                 val newRange = range.replace("-", "")
                 while (inputScanner.hasNext()) {
                     next = inputScanner.nextLine()
-                    for (i in newRange.toInt() until next.length - 1) {
+                    for (i in newRange.toInt() until next.length) {
                         string += next[i].toString()
                     }
                     fullString += string + "\n"
@@ -150,7 +150,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                         val splitLine = next.split(" ")
                         string += splitLine[i] + " "
                     }
-                    fullString += string + "\n"
+                    fullString += string.trimEnd() + "\n"
                     string = ""
                 }
             }
@@ -162,7 +162,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                     for (i in newRange.toInt() - 1 until splitLine.size - 1) {
                         string += splitLine[i] + " "
                     }
-                    fullString += string + "\n"
+                    fullString += string.trimEnd() + "\n"
                     string = ""
                 }
             }
@@ -174,7 +174,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                         val splitLine = next.split(" ")
                         string += splitLine[i] + " "
                     }
-                    fullString += string + "\n"
+                    fullString += string.trimEnd() + "\n"
                     string = ""
                 }
             }
