@@ -159,7 +159,7 @@ fun noInputCut(output: String, range: String, indentation: String) {
                 while (inputScanner.hasNext()) {
                     next = inputScanner.nextLine()
                     val splitLine = next.split(" ")
-                    for (i in newRange.toInt() until splitLine.lastIndex + 1) {
+                    for (i in newRange.toInt() until splitLine.size) {
                         string += splitLine[i] + " "
                     }
                     fullString += string.trimEnd() + "\n"
@@ -174,13 +174,14 @@ fun noInputCut(output: String, range: String, indentation: String) {
                         val splitLine = next.split(" ")
                         string += splitLine[i] + " "
                     }
-                    fullString += string.trimEnd() + "\n"
+                    fullString += string.trimEnd()
                     string = ""
                 }
             }
         }
     }
     inputScanner.close()
+    fullString = fullString.trimEnd('\n')
     output(fullString, output)
 }
 
