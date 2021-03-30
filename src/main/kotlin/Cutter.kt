@@ -83,9 +83,8 @@ fun cutLine(line: String, range: String, indentation: String): String {
             else string += line[i].toString()
         }
         else {
-            if (line == "^D") break
             val splitLine = line.split(" ")
-            if (splitLine[i] == splitLine.last() && splitLine.lastIndex < endRange) {
+            if (line == "" || (splitLine[i] == splitLine.last() && splitLine.lastIndex < endRange)) {
                 string += splitLine[i] + " "
                 break
             }
