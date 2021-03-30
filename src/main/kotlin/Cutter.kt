@@ -28,7 +28,6 @@ fun noInputCut(output: String, range: String, indentation: String) {
     var line: String
     while (inputScanner.hasNext()) {
         line = inputScanner.nextLine()
-        if (line == "^D") break
         string += cutLine(line, range, indentation).trimEnd() + "\n"
     }
     inputScanner.close()
