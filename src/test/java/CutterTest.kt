@@ -1,9 +1,11 @@
-
 import CutterLauncher.main
 import org.junit.Test
 import java.io.File
-import kotlin.test.assertFalse
+import java.io.FileNotFoundException
 import kotlin.test.assertTrue
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.kohsuke.args4j.CmdLineException
+import java.lang.IllegalArgumentException
 
 class CutterTest {
     private fun assertFileContent(expectedFile: String, actualFile: String): Boolean {
@@ -42,6 +44,18 @@ class CutterTest {
         assertTrue {
             assertFileContent("output/hello7.txt", "output/hello1.txt")
         }
+        assertThrows(IllegalArgumentException::class.java) { main("-c -o output/hello1.txt input/hello81460146.txt -r 3-7".split(" ").toTypedArray()) }
+        assertThrows(IllegalArgumentException::class.java) { main("-c -o output/hello1.txt input/hello81460146.txt -r -7".split(" ").toTypedArray()) }
+        assertThrows(IllegalArgumentException::class.java) { main("-c -o output/hello1.txt input/hello81460146.txt -r 5-".split(" ").toTypedArray()) }
+        assertThrows(IllegalArgumentException::class.java) { main("-w -o output/hello1.txt input/hello81460146.txt -r 3-7".split(" ").toTypedArray()) }
+        assertThrows(IllegalArgumentException::class.java) { main("-w -o output/hello1.txt input/hello81460146.txt -r -7".split(" ").toTypedArray()) }
+        assertThrows(IllegalArgumentException::class.java) { main("-w -o output/hello1.txt input/hello81460146.txt -r 5-".split(" ").toTypedArray()) }
+
+
+
+
+
+
     }
 
 }

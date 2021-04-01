@@ -4,6 +4,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class CutterLauncher {
     @Option(name = "-c", metaVar = "CharsI", usage = "Indentation in characters", forbids = {"-w"})
@@ -24,7 +26,7 @@ public class CutterLauncher {
     public CutterLauncher() {
     }
 
-    public static void main(String[] args) throws NullPointerException {
+    public static void main(String[] args) {
         new CutterLauncher().launch(args);
     }
 
@@ -33,15 +35,23 @@ public class CutterLauncher {
 
         try {
             parser.parseArgument(args);
-            if (!w && !c || range.isEmpty() || range.length() == 1)  {
-                System.err.println("You must use -w or -c\nRange can be used like this\n        -K range from beginning of line to K\n        N- range from N to the end of the line\n        N-K range from N to K\n                where N and K - Integers");
+            if (!w && !c || range.equals("") || !range.matches("\\d-\\d|\\d-|-\\d")) {
+                System.err.println("You must use -w or -c\nRange (-r) must be used like this\n        -K range from beginning of line to K\n        N- range from N to the end of the line\n         N-K range from N to K\n           where N and K are integers");
                 parser.printUsage(System.err);
+                System.err.println("cut [-c|-w] [-o File] [file] [-r range]");
+                throw new IllegalArgumentException("");
+            }
+            if (!inputFile.exists()) {
+                System.err.println("Input file is not found");
+                parser.printUsage(System.err);
+                System.err.println("cut [-c|-w] [-o File] [file] [-r range]");
+                throw new IllegalArgumentException("");
             }
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
             System.err.println("cut [-c|-w] [-o File] [file] [-r range]");
             parser.printUsage(System.err);
-            return;
+            throw new IllegalArgumentException("");
         }
         Boolean indentationFlag;
         if (c) {
