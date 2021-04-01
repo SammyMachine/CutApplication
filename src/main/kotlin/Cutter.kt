@@ -1,55 +1,26 @@
 import java.io.File
+import java.lang.StringBuilder
 import java.util.*
 
-fun cut(indentation: String, input: String, output: String, range: String) {
-    if (input != "None")
-        inputCut(output, range, indentation, input)
-    else noInputCut(output, range, indentation)
+fun cut(indentationFlag: Boolean, input: String, output: String, range: String) {
+    val scanner: Scanner = if (input.isEmpty()) Scanner(System.`in`)
+    else Scanner(File(input).inputStream())
+    rangeParser(range)
+    var line: String
+    val newLine = StringBuilder()
+    while (scanner.hasNext()) {
+        line = scanner.nextLine()
+        newLine.append(cutLine(line, indentationFlag).trimEnd() + "\n")
+    }
+    scanner.close()
+    newLine.deleteCharAt(newLine.length - 1)
+    output(newLine.toString(), output)
 }
 
 var beginRange = 0
 var endRange = 0
 
-fun inputCut(output: String, range: String, indentation: String, input: String) {
-    val inputFile = File(input).bufferedReader()
-    var string = ""
-    for (line in inputFile.readLines()) {
-        string += if (findingLastLine(input) != line) {
-            cutLine(line, range, indentation).trimEnd() + "\n"
-        } else cutLine(line, range, indentation).trimEnd()
-    }
-    string = string.trimEnd('\n')
-    output(string, output)
-}
-
-fun noInputCut(output: String, range: String, indentation: String) {
-    var string = ""
-    val inputScanner = Scanner(System.`in`)
-    var line: String
-    while (inputScanner.hasNext()) {
-        line = inputScanner.nextLine()
-        string += cutLine(line, range, indentation).trimEnd() + "\n"
-    }
-    inputScanner.close()
-    string = string.trimEnd('\n')
-    output(string, output)
-}
-
-fun output(string: String, output: String) {
-    if (output != "None") {
-        val outputFile = File(output).bufferedWriter()
-        outputFile.use {
-            it.write(string)
-        }
-    } else println(string)
-}
-
-fun findingLastLine(input: String): String {
-    val file = File(input)
-    return file.readLines().last()
-}
-
-fun rangeTransformation(range: String) {
+fun rangeParser(range: String) {
     when ('-') {
         range[0] -> {
             beginRange = 0
@@ -66,39 +37,42 @@ fun rangeTransformation(range: String) {
     }
 }
 
-fun cutLine(line: String, range: String, indentation: String): String {
-    rangeTransformation(range)
-    var string = ""
+fun output(string: String, output: String) {
+    if (output.isNotEmpty()) {
+        val outputFile = File(output).bufferedWriter()
+        outputFile.use {
+            it.write(string)
+        }
+    } else println(string)
+}
+
+fun cutLine(line: String, indentationFlag: Boolean): String {
+    val string = StringBuilder()
     if (endRange == Int.MAX_VALUE) {
-        endRange = if (indentation == "Char")
+        endRange = if (indentationFlag)
             line.lastIndex
         else line.split(" ").lastIndex
     }
-    for (i in beginRange..endRange) {
-        if (indentation == "Char") {
-            if (line.lastIndex < beginRange) {
-                string += "\n"
-                break
-            }
+    val splitLine = line.split(" ")
+    if (line.lastIndex < beginRange)
+        string.append("\n")
+    else for (i in beginRange..endRange) {
+        if (indentationFlag) {
             if (line[i] == line.last() && line.lastIndex < endRange) {
-                string += line[i].toString()
+                string.append(line[i])
                 break
-            }
-            else string += line[i].toString()
-        }
-        else {
-            val splitLine = line.split(" ")
+            } else string.append(line[i])
+        } else {
             if (splitLine.lastIndex < beginRange) {
-                string += "\n"
+                string.append("\n")
                 break
             }
             if (splitLine[i] == splitLine.last() && splitLine.lastIndex < endRange) {
-                string += splitLine[i] + " "
+                string.append(splitLine[i] + " ")
                 break
-            }
-            else string += splitLine[i] + " "
+            } else string.append(splitLine[i] + " ")
         }
 
     }
-    return string
+    return string.toString()
 }

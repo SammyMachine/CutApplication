@@ -4,8 +4,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
-
 public class CutterLauncher {
     @Option(name = "-c", metaVar = "CharsI", usage = "Indentation in characters", forbids = {"-w"})
     private Boolean c = false;
@@ -31,8 +29,8 @@ public class CutterLauncher {
 
         try {
             parser.parseArgument(args);
-            if (!w && !c)  {
-                System.err.println("cut [-c|-w] [-o File] [file] [-r range]");
+            if (!w && !c || range.isEmpty() || range.length() == 1)  {
+                System.err.println("You must use -w or -c\nRange can be used like this\n        -K range from beginning of line to K\n        N- range from N to the end of the line\n        N-K range from N to K\n                where N and K - Integers");
                 parser.printUsage(System.err);
             }
         } catch (CmdLineException e) {
@@ -41,14 +39,12 @@ public class CutterLauncher {
             parser.printUsage(System.err);
             return;
         }
-        String indentation = "";
-        if (inputFileName == null) inputFileName = "None";
-        if (outputFileName == null) outputFileName = "None";
+        Boolean indentationFlag;
         if (c) {
-            indentation = "Char";
+            indentationFlag = true;
         } else
-            indentation = "Word";
-        CutterKt.cut(indentation, inputFileName, outputFileName, range);
+            indentationFlag = false;
+        CutterKt.cut(indentationFlag, inputFileName, outputFileName, range);
     }
 
 }
