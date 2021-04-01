@@ -3,7 +3,7 @@ import java.lang.StringBuilder
 import java.util.*
 
 fun cut(indentationFlag: Boolean, input: String, output: String, range: String) {
-    val scanner: Scanner = if (input.isNotEmpty()) Scanner(File(input).inputStream())
+    val scanner: Scanner = if (input != "") Scanner(File(input).inputStream())
     else Scanner(System.`in`)
     rangeParser(range)
     var line: String
@@ -38,7 +38,7 @@ fun rangeParser(range: String) {
 }
 
 fun output(string: String, output: String) {
-    if (output.isNotEmpty()) {
+    if (output != "") {
         val outputFile = File(output).bufferedWriter()
         outputFile.use {
             it.write(string)
