@@ -3,8 +3,8 @@ import java.lang.StringBuilder
 import java.util.*
 
 fun cut(indentationFlag: Boolean, input: String, output: String, range: String) {
-    val scanner: Scanner = if (input.isEmpty()) Scanner(System.`in`)
-    else Scanner(File(input).inputStream())
+    val scanner: Scanner = if (input.isNotEmpty()) Scanner(File(input).inputStream())
+    else Scanner(System.`in`)
     rangeParser(range)
     var line: String
     val newLine = StringBuilder()
