@@ -3,7 +3,6 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-
 import java.io.File;
 
 public class CutterLauncher {
@@ -14,15 +13,18 @@ public class CutterLauncher {
     private Boolean w = false;
 
     @Option(name = "-o", metaVar = "OutputName", usage = "Output file name")
-    private String outputFileName;
+    private File outputFile;
 
     @Option(required = true, name = "-r", metaVar = "Range", usage = "Output range")
     private String range;
 
     @Argument(metaVar = "InputName", usage = "Input file name")
-    private String inputFileName;
+    private File inputFile;
 
-    public static void main(String[] args) {
+    public CutterLauncher() {
+    }
+
+    public static void main(String[] args) throws NullPointerException {
         new CutterLauncher().launch(args);
     }
 
@@ -46,9 +48,7 @@ public class CutterLauncher {
             indentationFlag = true;
         } else
             indentationFlag = false;
-        File input = new File(inputFileName);
-        File output = new File(outputFileName);
-        CutterKt.cut(indentationFlag, input, output, range);
+        CutterKt.cut(indentationFlag, inputFile, outputFile, range);
     }
 
 }
