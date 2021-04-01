@@ -4,6 +4,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.File;
+
 public class CutterLauncher {
     @Option(name = "-c", metaVar = "CharsI", usage = "Indentation in characters", forbids = {"-w"})
     private Boolean c = false;
@@ -44,7 +46,9 @@ public class CutterLauncher {
             indentationFlag = true;
         } else
             indentationFlag = false;
-        CutterKt.cut(indentationFlag, inputFileName, outputFileName, range);
+        File input = new File(inputFileName);
+        File output = new File(outputFileName);
+        CutterKt.cut(indentationFlag, input, output, range);
     }
 
 }

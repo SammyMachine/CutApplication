@@ -2,8 +2,8 @@ import java.io.File
 import java.lang.StringBuilder
 import java.util.*
 
-fun cut(indentationFlag: Boolean, input: String, output: String, range: String) {
-    val scanner: Scanner = if (input != "") Scanner(File(input).inputStream())
+fun cut(indentationFlag: Boolean, input: File?, output: File?, range: String) {
+    val scanner: Scanner = if (input != null) Scanner(input.inputStream())
     else Scanner(System.`in`)
     rangeParser(range)
     var line: String
@@ -37,10 +37,10 @@ fun rangeParser(range: String) {
     }
 }
 
-fun output(string: String, output: String) {
-    if (output != "") {
-        val outputFile = File(output).bufferedWriter()
-        outputFile.use {
+fun output(string: String, output: File?) {
+    if (output != null) {
+        val outputFileWriter = output.bufferedWriter()
+        outputFileWriter.use {
             it.write(string)
         }
     } else println(string)
