@@ -76,6 +76,10 @@ fun cutLine(line: String, range: String, indentation: String): String {
     }
     for (i in beginRange..endRange) {
         if (indentation == "Char") {
+            if (line.lastIndex < beginRange) {
+                string += "\n"
+                break
+            }
             if (line[i] == line.last() && line.lastIndex < endRange) {
                 string += line[i].toString()
                 break
@@ -84,12 +88,17 @@ fun cutLine(line: String, range: String, indentation: String): String {
         }
         else {
             val splitLine = line.split(" ")
+            if (splitLine.lastIndex < beginRange) {
+                string += "\n"
+                break
+            }
             if (splitLine[i] == splitLine.last() && splitLine.lastIndex < endRange) {
                 string += splitLine[i] + " "
                 break
             }
             else string += splitLine[i] + " "
         }
+
     }
     return string
 }

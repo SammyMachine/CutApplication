@@ -1,10 +1,7 @@
 
+import CutterLauncher.main
 import org.junit.Test
-import org.kohsuke.args4j.CmdLineException
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.InputStream
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -44,10 +41,6 @@ class CutterTest {
         main("-w -o output/hello1.txt input/hello134.txt -r 5-".split(" ").toTypedArray())
         assertTrue {
             assertFileContent("output/hello7.txt", "output/hello1.txt")
-        }
-        main("-c -o output/hello1.txt -r 3-7".split(" ").toTypedArray())
-        assertTrue {
-            assertFileContent("output/hello8.txt", "output/hello1.txt")
         }
     }
 
